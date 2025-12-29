@@ -1,8 +1,17 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
-  reactCompiler: true,
+	reactCompiler: true,
+	serverExternalPackages: [
+		"bun:sqlite",
+		"puppeteer-core",
+		"puppeteer-real-browser",
+	],
+	turbopack: {
+		resolveAlias: {
+			"bun:sqlite": "bun:sqlite",
+		},
+	},
 };
 
 export default nextConfig;

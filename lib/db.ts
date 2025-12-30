@@ -8,6 +8,9 @@ let db: Database;
 
 if (!global.sqlite_db) {
 	global.sqlite_db = new Database("mydb.sqlite");
+	// Enable WAL mode for better concurrency
+	global.sqlite_db.run("PRAGMA journal_mode = WAL;");
+	
 	// Create table
 	global.sqlite_db.run(`
     CREATE TABLE IF NOT EXISTS monitors (
@@ -190,4 +193,8 @@ export const updateMonitorStatus = (
 		"UPDATE monitors SET last_hash = ?, last_checked = ?, status = ?, last_error = ? WHERE id = ?",
 		[hash, lastChecked, status, lastError, id],
 	);
+};
+
+export const setMonitorStatus = (id: number, status: string) => {
+	return db.run("UPDATE monitors SET status = ? WHERE id = ?", [status, id]);
 };

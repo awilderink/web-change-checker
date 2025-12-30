@@ -50,6 +50,11 @@ export default function MonitorItem({ monitor }: { monitor: Monitor }) {
 							ERROR
 						</span>
 					)}
+					{monitor.status === "checking" && (
+						<span className="bg-yellow-100 text-yellow-700 text-xs px-2 py-1 rounded font-bold animate-pulse">
+							CHECKING...
+						</span>
+					)}
 					{monitor.selector && (
 						<span className="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded">
 							{monitor.selector}

@@ -3,6 +3,8 @@ import AutoRefresh from "./components/AutoRefresh";
 import MonitorForm from "./components/MonitorForm";
 import MonitorItem from "./components/MonitorItem";
 
+export const dynamic = "force-dynamic";
+
 // This is now a Server Component
 export default async function Home() {
 	// Fetch data directly from the DB on the server
@@ -20,9 +22,14 @@ export default async function Home() {
 
 				{/* Monitors List */}
 				<div className="space-y-4">
-					<h2 className="text-xl font-semibold text-gray-800">
-						Active Monitors
-					</h2>
+					<div className="flex justify-between items-center">
+						<h2 className="text-xl font-semibold text-gray-800">
+							Active Monitors
+						</h2>
+						<span className="text-xs text-gray-400">
+							Auto-refreshing (Last: {new Date().toLocaleTimeString()})
+						</span>
+					</div>
 					{monitors.length === 0 ? (
 						<p className="text-gray-500 text-center py-8">
 							No monitors active. Add one above!

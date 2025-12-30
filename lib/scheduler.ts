@@ -2,7 +2,12 @@ import { createHash } from "node:crypto";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { connect } from "puppeteer-real-browser";
-import { getMonitors, type Monitor, updateMonitorStatus } from "./db";
+import {
+	getMonitors,
+	type Monitor,
+	updateMonitorStatus,
+	setMonitorStatus,
+} from "./db";
 
 // Ensure screenshots directory exists
 const SCREENSHOT_DIR = join(process.cwd(), "public", "screenshots");
@@ -310,6 +315,7 @@ export const startScheduler = () => {
 	console.log("Background scheduler started...");
 
 	global.scheduler_interval = setInterval(async () => {
+		// console.log("Scheduler tick...");
 		const monitors = getMonitors();
 		const now = Date.now();
 
@@ -317,23 +323,34 @@ export const startScheduler = () => {
 		if (!global.active_checks) {
 			global.active_checks = new Set<number>();
 		}
+		// console.log(`Active checks: ${global.active_checks.size}, Monitors: ${monitors.length}`);
 
 		for (const monitor of monitors) {
 			// Skip if already checking this monitor
 			if (global.active_checks.has(monitor.id)) {
+				// console.log(`Skipping ${monitor.url} (already checking)`);
 				continue;
 			}
 
 			const nextCheck = (monitor.last_checked || 0) + monitor.interval * 1000;
+			// const timeUntilCheck = nextCheck - now;
 
 			if (now >= nextCheck) {
+				console.log(`Triggering check for ${monitor.url}`);
 				global.active_checks.add(monitor.id);
+				
+				// Mark as checking
+				setMonitorStatus(monitor.id, "checking");
+
 				// Run check in background (don't await loop)
 				checkMonitor(monitor).finally(() => {
 					if (global.active_checks) {
 						global.active_checks.delete(monitor.id);
 					}
+					console.log(`Finished check for ${monitor.url}`);
 				});
+			} else {
+				// console.log(`Skipping ${monitor.url} (wait ${Math.ceil(timeUntilCheck / 1000)}s)`);
 			}
 		}
 	}, 5000);

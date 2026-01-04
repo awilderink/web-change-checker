@@ -1,4 +1,14 @@
 import { Database } from "bun:sqlite";
+import { existsSync, mkdirSync } from "node:fs";
+import { join } from "node:path";
+
+// Define Data Directory
+const DATA_DIR = join(process.cwd(), "data");
+
+// Ensure Data Directory exists
+if (!existsSync(DATA_DIR)) {
+	mkdirSync(DATA_DIR, { recursive: true });
+}
 
 declare global {
 	var sqlite_db: Database | undefined;
@@ -7,7 +17,7 @@ declare global {
 let db: Database;
 
 if (!global.sqlite_db) {
-	global.sqlite_db = new Database("mydb.sqlite");
+	global.sqlite_db = new Database(join(DATA_DIR, "mydb.sqlite"));
 	// Enable WAL mode for better concurrency
 	global.sqlite_db.run("PRAGMA journal_mode = WAL;");
 	

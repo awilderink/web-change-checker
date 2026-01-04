@@ -1,9 +1,6 @@
 node_modules
 .next
 .git
-mydb.sqlite
-cookies.json
-public/screenshots/*
-!public/screenshots/.keep
+data/
 .env
 .DS_Store

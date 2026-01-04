@@ -9,9 +9,10 @@ import {
 	setMonitorStatus,
 } from "./db";
 
-// Ensure screenshots directory exists
-const SCREENSHOT_DIR = join(process.cwd(), "public", "screenshots");
-const COOKIES_FILE = join(process.cwd(), "cookies.json");
+// Ensure data and screenshots directory exists
+const DATA_DIR = join(process.cwd(), "data");
+const SCREENSHOT_DIR = join(DATA_DIR, "screenshots");
+const COOKIES_FILE = join(DATA_DIR, "cookies.json");
 
 if (!existsSync(SCREENSHOT_DIR)) {
 	mkdirSync(SCREENSHOT_DIR, { recursive: true });

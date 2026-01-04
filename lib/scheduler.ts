@@ -338,7 +338,7 @@ export const startScheduler = () => {
 			if (now >= nextCheck) {
 				console.log(`Triggering check for ${monitor.url}`);
 				global.active_checks.add(monitor.id);
-				
+
 				// Mark as checking
 				setMonitorStatus(monitor.id, "checking");
 

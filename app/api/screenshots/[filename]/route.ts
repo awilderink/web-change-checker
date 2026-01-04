@@ -15,7 +15,8 @@ export async function GET(
 		return new NextResponse("Invalid file type", { status: 400 });
 	}
 
-	const filePath = join(process.cwd(), "data", "screenshots", sanitizedFilename);
+	const DATA_DIR = process.env.DATA_DIR || join(process.cwd(), "data");
+	const filePath = join(DATA_DIR, "screenshots", sanitizedFilename);
 
 	if (!existsSync(filePath)) {
 		return new NextResponse("File not found", { status: 404 });

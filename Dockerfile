@@ -35,6 +35,9 @@ RUN bun install
 # Copy source
 COPY . .
 
+# Ensure data directory exists and has correct permissions
+RUN mkdir -p /app/data && chmod 777 /app/data
+
 # Build Next.js
 RUN bun run build
 

@@ -10,7 +10,7 @@ import {
 } from "./db";
 
 // Ensure data and screenshots directory exists
-const DATA_DIR = join(process.cwd(), "data");
+const DATA_DIR = process.env.DATA_DIR || join(process.cwd(), "data");
 const SCREENSHOT_DIR = join(DATA_DIR, "screenshots");
 const COOKIES_FILE = join(DATA_DIR, "cookies.json");
 

@@ -3,7 +3,9 @@ import { existsSync, mkdirSync } from "node:fs";
 import { join } from "node:path";
 
 // Define Data Directory
-const DATA_DIR = join(process.cwd(), "data");
+// In Docker, process.cwd() is /app, so this becomes /app/data
+// If persistent volume is mounted at /app/data, this works.
+const DATA_DIR = process.env.DATA_DIR || join(process.cwd(), "data");
 
 // Ensure Data Directory exists
 if (!existsSync(DATA_DIR)) {

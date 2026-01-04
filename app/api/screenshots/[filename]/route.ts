@@ -26,7 +26,9 @@ export async function GET(
 	return new NextResponse(fileBuffer, {
 		headers: {
 			"Content-Type": "image/png",
-			"Cache-Control": "public, max-age=31536000, immutable",
+			"Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+			"Pragma": "no-cache",
+			"Expires": "0",
 		},
 	});
 }

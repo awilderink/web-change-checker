@@ -89,13 +89,13 @@ export default function MonitorItem({ monitor }: { monitor: Monitor }) {
 							</summary>
 							<div className="mt-2 border rounded overflow-hidden">
 								<a
-									href={`/api/screenshots/${monitor.last_screenshot}`}
+									href={`/api/screenshots/${monitor.last_screenshot}?t=${monitor.last_checked}`}
 									target="_blank"
 									rel="noreferrer"
 								>
 									{/* biome-ignore lint/performance/noImgElement: Screenshots have variable dimensions */}
 									<img
-										src={`/api/screenshots/${monitor.last_screenshot}`}
+										src={`/api/screenshots/${monitor.last_screenshot}?t=${monitor.last_checked}`}
 										alt={`Screenshot of ${monitor.url}`}
 										className="w-full max-w-sm h-auto object-cover hover:opacity-90 transition-opacity"
 									/>
